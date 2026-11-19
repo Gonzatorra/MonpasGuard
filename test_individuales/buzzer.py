@@ -4,23 +4,45 @@ from time import sleep
 BUZZER_PIN = 22
 
 
-def sonar_buzzer(segundos=2):
-    print("Buzzer encendido")
+def setup_buzzer():
+    """Configures the buzzer GPIO pin."""
+    GPIO.setup(BUZZER_PIN, GPIO.OUT)
+    turn_buzzer_off()
+
+
+def turn_buzzer_on():
+    """Turns the buzzer on."""
     GPIO.output(BUZZER_PIN, GPIO.HIGH)
-    sleep(segundos)
+
+
+def turn_buzzer_off():
+    """Turns the buzzer off."""
     GPIO.output(BUZZER_PIN, GPIO.LOW)
-    print("Buzzer apagado")
 
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(BUZZER_PIN, GPIO.OUT)
+def sound_buzzer(seconds=2):
+    """Turns the buzzer on for a given number of seconds."""
+    print("Buzzer on")
+    turn_buzzer_on()
+    sleep(seconds)
+    turn_buzzer_off()
+    print("Buzzer off")
 
-try:
-    sonar_buzzer()
 
-except KeyboardInterrupt:
-    print("\nPrograma detenido.")
+def main():
+    GPIO.setmode(GPIO.BCM)
+    setup_buzzer()
 
-finally:
-    GPIO.output(BUZZER_PIN, GPIO.LOW)
-    GPIO.cleanup()
+    try:
+        sound_buzzer()
+
+    except KeyboardInterrupt:
+        print("\nProgram stopped.")
+
+    finally:
+        turn_buzzer_off()
+        GPIO.cleanup()
+
+
+if __name__ == "__main__":
+    main()
