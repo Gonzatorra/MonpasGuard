@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+supabase
+aiomqtt
+python-dotenv
